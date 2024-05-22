@@ -47,3 +47,13 @@ Docker-Compose starts all five services.
   - Also Create a panel that shows the memory utilization of the Grafana container after you added the other panels.
 
 - Stress your machine with, e.g., `stress`, `dd`, or youtube, to see if your metrics change.
+
+## Output
+
+Dashboard
+
+![Dashboard](dashboard.png)
+
+Memory usage
+
+![Memory_usage](Memoryusagegrafana.png)
