@@ -1,0 +1,972 @@
+__elements: {}
+__inputs:
+- description: ''
+  label: Prometheus
+  name: DS_PROMETHEUS
+  pluginId: prometheus
+  pluginName: Prometheus
+  type: datasource
+__requires:
+- id: grafana
+  name: Grafana
+  type: grafana
+  version: 9.4.7
+- id: heatmap
+  name: Heatmap
+  type: panel
+  version: ''
+- id: prometheus
+  name: Prometheus
+  type: datasource
+  version: 1.0.0
+- id: stat
+  name: Stat
+  type: panel
+  version: ''
+- id: timeseries
+  name: Time series
+  type: panel
+  version: ''
+annotations:
+  list:
+  - builtIn: 1
+    datasource:
+      type: grafana
+      uid: -- Grafana --
+    enable: true
+    hide: true
+    iconColor: rgba(0, 211, 255, 1)
+    name: Annotations & Alerts
+    target:
+      limit: 100
+      matchAny: false
+      tags: []
+      type: dashboard
+    type: dashboard
+description: System metrics using Prometheus and Grafana
+editable: true
+fiscalYearStartMonth: 0
+graphTooltip: 0
+id: null
+links: []
+liveNow: false
+panels:
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: read and write system calls filtered
+  fieldConfig:
+    defaults:
+      color:
+        mode: continuous-GrYlRd
+      custom:
+        axisCenteredZero: false
+        axisColorMode: series
+        axisLabel: ''
+        axisPlacement: right
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 3
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineStyle:
+          fill: solid
+        lineWidth: 2
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+    overrides: []
+  gridPos:
+    h: 8
+    w: 12
+    x: 0
+    y: 0
+  id: 24
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: ebpf_exporter_syscalls_total{syscall="read"}
+    legendFormat: __auto
+    range: true
+    refId: A
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: ebpf_exporter_syscalls_total{syscall="write"}
+    hide: false
+    legendFormat: __auto
+    range: true
+    refId: B
+  title: Read and Write syscalls (Host)
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  fieldConfig:
+    defaults:
+      color:
+        mode: palette-classic
+      custom:
+        axisCenteredZero: false
+        axisColorMode: text
+        axisLabel: ''
+        axisPlacement: auto
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 12
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineWidth: 2
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+    overrides: []
+  gridPos:
+    h: 8
+    w: 12
+    x: 12
+    y: 0
+  id: 2
+  interval: 1s
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: rate(ebpf_exporter_syscalls_total[5m])
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: Host Syscalls
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: This query calculates the rate of change of the node_cpu_seconds_total
+    metric in "idle" mode over the last 5 minutes, averages it over all instances,
+    multiplies it by 100 to get a percentage, and then subtracts that from 100 to
+    get the percentage of time spent not idle, i.e., the CPU utilization.
+  fieldConfig:
+    defaults:
+      color:
+        mode: continuous-BlYlRd
+      custom:
+        axisCenteredZero: false
+        axisColorMode: text
+        axisLabel: ''
+        axisPlacement: auto
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 15
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineWidth: 3
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 30
+      unit: percent
+    overrides: []
+  gridPos:
+    h: 8
+    w: 12
+    x: 0
+    y: 8
+  id: 18
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  pluginVersion: 9.4.7
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: 100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m]))
+      * 100)
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: CPU usage percentage
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: Total available memory on the host
+  fieldConfig:
+    defaults:
+      color:
+        mode: continuous-YlBl
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+      unit: decbytes
+    overrides: []
+  gridPos:
+    h: 7
+    w: 5
+    x: 12
+    y: 8
+  id: 14
+  options:
+    colorMode: value
+    graphMode: area
+    justifyMode: auto
+    orientation: auto
+    reduceOptions:
+      calcs:
+      - lastNotNull
+      fields: ''
+      values: false
+    textMode: auto
+  pluginVersion: 9.4.7
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: node_memory_MemTotal_bytes
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: Total Available Memory
+  type: stat
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: Grafana container cpu usage rate over last 5 mins
+  fieldConfig:
+    defaults:
+      color:
+        mode: continuous-BlYlRd
+      custom:
+        axisCenteredZero: false
+        axisColorMode: text
+        axisLabel: ''
+        axisPlacement: auto
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 8
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineStyle:
+          fill: solid
+        lineWidth: 2
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+    overrides: []
+  gridPos:
+    h: 7
+    w: 7
+    x: 17
+    y: 8
+  id: 6
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: rate(container_cpu_usage_seconds_total{container_label_com_docker_compose_service="grafana"}[5m])
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: Grafana CPU usage
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: Okay hear me out. When I checked all the available metrics provided
+    by ebpf exporter there was no ebpf_exporter_llc_misses_total. So instead I added
+    the metric ebpf_exporter_page_ops_total with the operation filter as add_to_page_cache_lur.
+    Now the thing is in most cases *When the cache is fill* an LRU operation is a
+    consequence of a cache miss so we can safely assume that a cache miss has happened
+    and thus the LRU operation took place. However it is only true when the cache
+    is full, so for an empty (or rather not full) cache even if there is a cache miss,
+    an LRU operation will not take place and it will be undetected by this metric.
+    Keeping in mind that the only reason that I added this in place of actual cache
+    miss metric is due to the unavailability of the metric.
+  fieldConfig:
+    defaults:
+      color:
+        mode: palette-classic
+      custom:
+        axisCenteredZero: false
+        axisColorMode: text
+        axisLabel: ''
+        axisPlacement: auto
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 0
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: linear
+        lineWidth: 1
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+    overrides: []
+  gridPos:
+    h: 8
+    w: 5
+    x: 12
+    y: 15
+  id: 8
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  pluginVersion: 9.4.7
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: rate(ebpf_exporter_page_cache_ops_total{op="add_to_page_cache_lru"}[1m])
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: Cache miss
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: CPU usage rate over last 5 minutes
+  fieldConfig:
+    defaults:
+      color:
+        mode: palette-classic
+      custom:
+        axisCenteredZero: false
+        axisColorMode: text
+        axisLabel: ''
+        axisPlacement: auto
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 8
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineWidth: 2
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+    overrides: []
+  gridPos:
+    h: 8
+    w: 7
+    x: 17
+    y: 15
+  id: 4
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: rate(container_cpu_usage_seconds_total{container_label_com_docker_compose_service="prometheus"}[5m])
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: CPU usage Prometheus
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: Memory available on host
+  fieldConfig:
+    defaults:
+      color:
+        mode: continuous-YlBl
+      custom:
+        axisCenteredZero: false
+        axisColorMode: series
+        axisLabel: ''
+        axisPlacement: auto
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 9
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineWidth: 3
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+      unit: decbytes
+    overrides: []
+  gridPos:
+    h: 7
+    w: 12
+    x: 0
+    y: 16
+  id: 16
+  interval: 5s
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: node_memory_MemAvailable_bytes
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: Memory available
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: Rate of downlink data over last 1 minutes in the Prometheus container
+  fieldConfig:
+    defaults:
+      color:
+        mode: palette-classic
+      custom:
+        axisCenteredZero: false
+        axisColorMode: series
+        axisLabel: Downlink data in Bytes
+        axisPlacement: right
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 3
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineWidth: 1
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+      unit: decbytes
+    overrides: []
+  gridPos:
+    h: 8
+    w: 6
+    x: 0
+    y: 23
+  id: 10
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  pluginVersion: 9.4.7
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: rate(container_network_receive_bytes_total{container_label_com_docker_compose_service="prometheus"}[1m])
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: Network Traffic Down (Prometheus)
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: Rate of uplink data over last 1 minutes in the Prometheus container
+  fieldConfig:
+    defaults:
+      color:
+        mode: continuous-YlRd
+      custom:
+        axisCenteredZero: false
+        axisColorMode: series
+        axisLabel: Uplink data in Bytes
+        axisPlacement: right
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 3
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineWidth: 1
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      displayName: Uplink data in Bytes
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+      unit: decbytes
+    overrides: []
+  gridPos:
+    h: 8
+    w: 6
+    x: 6
+    y: 23
+  id: 12
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: rate(container_network_transmit_bytes_total{container_label_com_docker_compose_service="prometheus"}[1m])
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: Network Traffic Up (Prometheus)
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: We also added a threshold line to about 120% of the peak memory usage
+  fieldConfig:
+    defaults:
+      color:
+        mode: palette-classic
+      custom:
+        axisCenteredZero: false
+        axisColorMode: series
+        axisLabel: ''
+        axisPlacement: auto
+        barAlignment: -1
+        drawStyle: line
+        fillOpacity: 10
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineWidth: 2
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: dashed
+      mappings: []
+      thresholds:
+        mode: percentage
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 100
+        - color: '#EAB839'
+          value: 120
+      unit: decbytes
+    overrides: []
+  gridPos:
+    h: 8
+    w: 12
+    x: 12
+    y: 23
+  id: 22
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: container_memory_usage_bytes{container_label_com_docker_compose_service="grafana"}
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: Memory Usage Grafana
+  type: timeseries
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: This query calculates the rate of the ebpf_exporter_bio_latency_seconds_bucket
+    metric in "write" mode over the last 1 minutes, sums it up by the le label (which
+    represents the upper bound of each histogram bucket), and then calculates the
+    90th percentile of the resulting histogram.
+  fieldConfig:
+    defaults:
+      custom:
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        scaleDistribution:
+          type: linear
+    overrides: []
+  gridPos:
+    h: 8
+    w: 12
+    x: 0
+    y: 31
+  id: 20
+  options:
+    calculate: true
+    calculation:
+      xBuckets:
+        mode: size
+        value: ''
+      yBuckets:
+        mode: size
+    cellGap: 17
+    color:
+      exponent: 0.5
+      fill: dark-orange
+      mode: scheme
+      reverse: true
+      scale: exponential
+      scheme: OrRd
+      steps: 2
+    exemplars:
+      color: red
+    filterValues:
+      le: 1.0e-09
+    legend:
+      show: true
+    rowsFrame:
+      layout: auto
+    tooltip:
+      show: true
+      yHistogram: false
+    yAxis:
+      axisPlacement: left
+      decimals: 1
+      reverse: false
+      unit: s
+  pluginVersion: 9.4.7
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: code
+    expr: histogram_quantile(0.90, sum(rate(ebpf_exporter_bio_latency_seconds_bucket{operation="write"}[1m]))
+      by (le))
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: 90th percentile disk write latency in seconds
+  type: heatmap
+- datasource:
+    type: prometheus
+    uid: ${DS_PROMETHEUS}
+  description: 95th percentile latency of successful HTTP request to grafana
+  fieldConfig:
+    defaults:
+      color:
+        mode: palette-classic
+      custom:
+        axisCenteredZero: false
+        axisColorMode: text
+        axisLabel: ''
+        axisPlacement: auto
+        barAlignment: 0
+        drawStyle: line
+        fillOpacity: 0
+        gradientMode: none
+        hideFrom:
+          legend: false
+          tooltip: false
+          viz: false
+        lineInterpolation: smooth
+        lineWidth: 2
+        pointSize: 5
+        scaleDistribution:
+          type: linear
+        showPoints: auto
+        spanNulls: false
+        stacking:
+          group: A
+          mode: none
+        thresholdsStyle:
+          mode: 'off'
+      mappings: []
+      thresholds:
+        mode: absolute
+        steps:
+        - color: green
+          value: null
+        - color: red
+          value: 80
+      unit: s
+    overrides: []
+  gridPos:
+    h: 8
+    w: 12
+    x: 12
+    y: 31
+  id: 26
+  options:
+    legend:
+      calcs: []
+      displayMode: list
+      placement: bottom
+      showLegend: true
+    tooltip:
+      mode: single
+      sort: none
+  targets:
+  - datasource:
+      type: prometheus
+      uid: ${DS_PROMETHEUS}
+    editorMode: builder
+    expr: histogram_quantile(0.95, sum by(le) (rate(grafana_http_request_duration_seconds_bucket{status_code="200"}[5m])))
+    legendFormat: __auto
+    range: true
+    refId: A
+  title: 95th percentile of successful HTTP request latencies
+  type: timeseries
+refresh: 5s
+revision: 1
+schemaVersion: 38
+style: dark
+tags: []
+templating:
+  list: []
+time:
+  from: now-15m
+  to: now
+timepicker: {}
+timezone: ''
+title: Network and system performance
+uid: GXsERVDIk
+version: 34
+weekStart: ''
